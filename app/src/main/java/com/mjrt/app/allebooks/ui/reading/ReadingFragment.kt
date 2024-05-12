@@ -1,4 +1,4 @@
-package com.mjrt.app.allebooks.ui.slideshow
+package com.mjrt.app.allebooks.ui.reading
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.mjrt.app.allebooks.databinding.FragmentSlideshowBinding
+import com.mjrt.app.allebooks.databinding.FragmentReadingBinding
 
-class SlideshowFragment : Fragment() {
+class ReadingFragment : Fragment() {
 
-    private var _binding: FragmentSlideshowBinding? = null
+    private var _binding: FragmentReadingBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,14 @@ class SlideshowFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val slideshowViewModel =
-            ViewModelProvider(this).get(SlideshowViewModel::class.java)
+        val readingViewModel =
+            ViewModelProvider(this).get(ReadingViewModel::class.java)
 
-        _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
+        _binding = FragmentReadingBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSlideshow
-        slideshowViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textReading
+        readingViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root

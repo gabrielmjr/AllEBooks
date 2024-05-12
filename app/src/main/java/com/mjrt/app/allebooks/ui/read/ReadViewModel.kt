@@ -1,13 +1,13 @@
-package com.mjrt.app.allebooks.ui.slideshow
+package com.mjrt.app.allebooks.ui.read
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class SlideshowViewModel : ViewModel() {
+class ReadViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is slideshow Fragment"
+        value = "Show read books"
     }
     val text: LiveData<String> = _text
 }
