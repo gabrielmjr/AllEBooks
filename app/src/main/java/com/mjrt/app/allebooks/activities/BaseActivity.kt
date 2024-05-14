@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.mjrt.app.allebooks.R
+import com.mjrt.app.allebooks.document_manager.DocumentManager
 
 abstract class BaseActivity: AppCompatActivity() {
     private lateinit var handler: Handler
@@ -11,7 +12,7 @@ abstract class BaseActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initializeThisAttributes()
-        if (initialzeActivity())
+        if (initializeActivity())
             setDefaultToolbar()
         initializeAttributes()
     }
@@ -20,7 +21,11 @@ abstract class BaseActivity: AppCompatActivity() {
         handler = Handler(mainLooper)
     }
 
-    protected abstract fun initialzeActivity(): Boolean
+    protected abstract fun initializeActivity(): Boolean
+
+    protected fun onPermissionsLegalizer() {
+        DocumentManager.getInstance(applicationContext).loadAllDocuments()
+    }
 
     private fun setDefaultToolbar() {
         setToolbar(R.id.toolbar)
