@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.mjrt.app.allebooks.R
-import com.mjrt.app.allebooks.document_manager.DocumentManager
 
 abstract class BaseActivity: AppCompatActivity() {
     private lateinit var handler: Handler
@@ -22,10 +21,6 @@ abstract class BaseActivity: AppCompatActivity() {
     }
 
     protected abstract fun initializeActivity(): Boolean
-
-    protected fun onPermissionsLegalizer() {
-        DocumentManager.getInstance(applicationContext).loadAllDocuments()
-    }
 
     private fun setDefaultToolbar() {
         setToolbar(R.id.toolbar)

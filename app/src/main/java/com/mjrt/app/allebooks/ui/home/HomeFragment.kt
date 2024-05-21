@@ -1,40 +1,41 @@
 package com.mjrt.app.allebooks.ui.home
 
-import android.os.Bundle
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mjrt.app.allebooks.MainActivity
+import com.mjrt.app.allebooks.adapters.PdfDocumentsAdapter
 import com.mjrt.app.allebooks.databinding.FragmentHomeBinding
+import com.mjrt.app.allebooks.document_manager.DocumentManager
+import com.mjrt.app.allebooks.fragments.BaseFragment
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var documentManager: DocumentManager
+    private lateinit var pdfDocumentsAdapter: PdfDocumentsAdapter
 
-    private var _binding: FragmentHomeBinding? = null
-
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+    override fun initializeFragment(inflator: LayoutInflater): View {
+        binding = FragmentHomeBinding.inflate(inflator)
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun initializeAttributes() {
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        binding.docRecycler.layoutManager = LinearLayoutManager(requireContext())
+        documentManager = (requireActivity() as MainActivity).documentManager
+        pdfDocumentsAdapter = (requireActivity() as MainActivity).pdfDocumentsAdapter
+        binding.docRecycler.adapter = pdfDocumentsAdapter
+        setViewModerObserver()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setViewModerObserver() {
+        homeViewModel.pdfDocuments.observe(viewLifecycleOwner) {
+            pdfDocumentsAdapter.pdfDocuments = it
+            pdfDocumentsAdapter.notifyDataSetChanged()
+        }
     }
 }
