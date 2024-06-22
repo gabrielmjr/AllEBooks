@@ -11,7 +11,6 @@ public class DocumentManagerLooperThread extends Thread {
 
     public DocumentManagerLooperThread(Context context) {
         this.context = context;
-        start();
     }
 
     @Override

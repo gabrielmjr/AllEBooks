@@ -18,6 +18,7 @@ public class DocumentRepository {
 
     private DocumentRepository(Context context) {
         looperThread = new DocumentManagerLooperThread(context);
+        looperThread.start();
     }
 
     public void loadDocuments(@NotNull KFunction<Unit> callback) {

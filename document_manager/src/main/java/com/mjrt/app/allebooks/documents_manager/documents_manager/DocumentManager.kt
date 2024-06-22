@@ -1,6 +1,5 @@
 package com.mjrt.app.allebooks.documents_manager.documents_manager
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
@@ -10,7 +9,7 @@ import com.mjrt.app.allebooks.thumbnail_manager.thumbnail_manager.ThumbnailManag
 import com.mjrt.app.allebooks.utils.SizeParser
 import java.util.Date
 
-class DocumentManager private constructor(private val context: Context) {
+class DocumentManager(context: Context) {
     private val tag = javaClass.getName()
     private val projection = arrayOf(
         MediaStore.Files.FileColumns._ID,
@@ -86,16 +85,5 @@ class DocumentManager private constructor(private val context: Context) {
 
     companion object {
         const val READ_STORAGE_PERMISSION_CODE = 0
-        @SuppressLint("StaticFieldLeak")
-        private var instance: DocumentManager? = null
-        @JvmStatic
-        fun getInstance(context: Context): DocumentManager? {
-            if (instance == null) instance = DocumentManager(context)
-            return instance
-        }
-
-        fun getInstance(): DocumentManager? {
-            return instance
-        }
     }
 }

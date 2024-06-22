@@ -1,6 +1,5 @@
 package com.mjrt.app.allebooks.documents_manager.documents_manager;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,7 +17,7 @@ public class DocumentManagerHandler extends Handler {
 
     public DocumentManagerHandler(Context context, Looper looper) {
         super(looper);
-        documentManager = DocumentManager.getInstance(context);
+        documentManager = new DocumentManager(context);
     }
 
     @Override

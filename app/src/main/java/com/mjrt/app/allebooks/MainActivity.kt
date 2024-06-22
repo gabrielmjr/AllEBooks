@@ -25,6 +25,7 @@ class MainActivity : BaseActivity() {
     lateinit var documentsRepository: DocumentRepository
 
     override fun initializeActivity(): Boolean {
+        documentsRepository = DocumentRepository.getInstance(applicationContext)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         return true

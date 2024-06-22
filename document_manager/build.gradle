@@ -33,6 +33,7 @@ dependencies {
     implementation libs.lombok
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
+    implementation libs.kotlin.reflect
     implementation project(':thumbnail_manager')
     implementation project(':utils')
 }
