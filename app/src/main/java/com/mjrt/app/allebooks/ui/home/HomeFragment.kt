@@ -1,8 +1,11 @@
 package com.mjrt.app.allebooks.ui.home
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mjrt.app.allebooks.MainActivity
 import com.mjrt.app.allebooks.R
@@ -20,7 +23,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     override fun initializeAttributes() {
-        loadDocuments()
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
+            loadDocuments()
+        else
+            setupPickDocumentFAB()
     }
 
     private fun loadDocuments() {
@@ -42,6 +48,39 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             documentsAdapter!!.notifyDataSetChanged()
             binding.docRecycler.adapter = documentsAdapter
             binding.docRecycler.layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun setupPickDocumentFAB() {
+        showFab()
+        setFabOpenClickListener()
+        setFabOpenDocClickListener()
+    }
+
+    private fun showFab() {
+        binding.fabsParentLayout.visibility = View.VISIBLE
+    }
+
+    private fun setFabOpenClickListener() {
+        binding.fabOpen.setOnClickListener {
+            revertFabVisibility()
+        }
+    }
+
+    private fun setFabOpenDocClickListener() {
+        binding.fabOpenDoc.setOnClickListener {
+            revertFabVisibility()
+            Toast.makeText(requireContext(), "Pick document", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun revertFabVisibility() {
+        if (binding.fabOpenDoc.isVisible) {
+            binding.fabOpenDoc.visibility = View.INVISIBLE
+            binding.openDocFabLabel.visibility = View.INVISIBLE
+        } else {
+            binding.fabOpenDoc.visibility = View.VISIBLE
+            binding.openDocFabLabel.visibility = View.VISIBLE
         }
     }
 

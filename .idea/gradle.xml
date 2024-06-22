@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/document_manager" />
+            <option value="$PROJECT_DIR$/reader" />
             <option value="$PROJECT_DIR$/thumbnail_manager" />
             <option value="$PROJECT_DIR$/ui" />
             <option value="$PROJECT_DIR$/utils" />
