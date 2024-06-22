@@ -22,3 +22,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "AllEBooks"
 include ':app'
+include ':document_manager'
+include ':thumbnail_manager'
+include ':utils'
+include ':ui'
+include ':core'

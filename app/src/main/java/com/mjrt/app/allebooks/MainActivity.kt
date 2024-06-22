@@ -12,24 +12,27 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.mjrt.app.allebooks.activities.BaseActivity
-import com.mjrt.app.allebooks.adapters.PdfDocumentsAdapter
+import com.mjrt.app.allebooks.core.activity.BaseActivity
 import com.mjrt.app.allebooks.databinding.ActivityMainBinding
-import com.mjrt.app.allebooks.document_manager.DocumentManager
-import com.mjrt.app.allebooks.document_manager.DocumentManager.Companion.READ_STORAGE_PERMISSION_CODE
+import com.mjrt.app.allebooks.documents_manager.documents_manager.DocumentManager.Companion.READ_STORAGE_PERMISSION_CODE
+import com.mjrt.app.allebooks.documents_manager.documents_manager.DocumentRepository
 
 class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
-    lateinit var documentManager: DocumentManager
-    lateinit var pdfDocumentsAdapter: PdfDocumentsAdapter
+    lateinit var documentsRepository: DocumentRepository
 
     override fun initializeActivity(): Boolean {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         return true
+    }
+
+    override fun initializeAttributes() {
+        checkForReadPermission()
+        setNavigation()
     }
 
     private fun setNavigation() {
@@ -38,13 +41,10 @@ class MainActivity : BaseActivity() {
                 R.id.nav_home, R.id.nav_reading, R.id.nav_read
             ), binding.drawerLayout
         )
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as  NavHostFragment
+        navHostFragment = supportFragmentManager.findFragmentById(
+            com.mjrt.app.allebooks.core.R.id.nav_host_fragment_content_main) as  NavHostFragment
         navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_reading, R.id.nav_read
-            ), binding.drawerLayout
-        )
+        navController.graph = navController.navInflater.inflate(R.navigation.mobile_navigation)
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
     }
@@ -81,13 +81,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onPermissionsLegalizer() {
-        documentManager = DocumentManager.getInstance(applicationContext)!!
-        pdfDocumentsAdapter = PdfDocumentsAdapter(applicationContext, documentManager.pdfDocuments)
-    }
-
-    override fun initializeAttributes() {
-        checkForReadPermission()
-        setNavigation()
+        documentsRepository = DocumentRepository.getInstance(applicationContext)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -96,7 +90,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        val navController = findNavController(
+            com.mjrt.app.allebooks.core.R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

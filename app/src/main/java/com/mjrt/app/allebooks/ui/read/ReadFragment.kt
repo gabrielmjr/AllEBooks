@@ -7,36 +7,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.mjrt.app.allebooks.R
+import com.mjrt.app.allebooks.core.fragment.BaseFragment
 import com.mjrt.app.allebooks.databinding.FragmentReadBinding
 
-class ReadFragment : Fragment() {
+class ReadFragment : BaseFragment(R.layout.fragment_read) {
 
-    private var _binding: FragmentReadBinding? = null
+    private lateinit var binding: FragmentReadBinding
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val readViewModel =
-            ViewModelProvider(this).get(ReadViewModel::class.java)
-
-        _binding = FragmentReadBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textRead
-        readViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+    override fun initializeFragment(view: View) {
+        binding = FragmentReadBinding.bind(view)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun initializeAttributes() {
+
     }
 }
