@@ -1,15 +1,18 @@
-package com.mjrt.app.allebooks.documents_manager.documents_manager
+package com.mjrt.app.allebooks.documents_manager.documents_manager.api28
 
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import com.mjrt.app.allebooks.documents_manager.documents_manager.Document
 import com.mjrt.app.allebooks.thumbnail_manager.thumbnail_manager.ThumbnailManager
-import com.mjrt.app.allebooks.utils.SizeParser
+import com.mjrt.app.allebooks.utils.size.SizeParser
 import java.util.Date
+import java.util.UUID
 
-class DocumentManager(context: Context) {
+class DocumentManagerPie(context: Context) {
     private val tag = javaClass.getName()
     private val projection = arrayOf(
         MediaStore.Files.FileColumns._ID,
@@ -20,7 +23,6 @@ class DocumentManager(context: Context) {
         MediaStore.Files.FileColumns.TITLE,
         MediaStore.Files.FileColumns.SIZE
     )
-    private val MIME_TYPE = "application/pdf"
     private val whereClause: String
     private val orderBy: String
     private val externalUri: Uri
@@ -34,20 +36,18 @@ class DocumentManager(context: Context) {
     private var titleColumn = 0
     private var sizeColumn = 0
 
-    var pdfDocuments: ArrayList<PdfDocument>
-        get() {
-            return loadAllDocuments()
-        }
+    var documentsLiveData: MutableLiveData<List<Document>> = MutableLiveData()
 
     init {
+        documentsLiveData.value = ArrayList()
         Log.d(tag, "DocumentManager: Instance created")
-        pdfDocuments = ArrayList()
         whereClause = MediaStore.Files.FileColumns.MIME_TYPE + " IN ('" + MIME_TYPE + "')"
         orderBy = MediaStore.Files.FileColumns.SIZE + " DESC"
         externalUri = MediaStore.Files.getContentUri("external")
         cursor = context.contentResolver.query(externalUri, projection, whereClause, null, orderBy)!!
         setupColumnIndexes()
         thumbnailManager = ThumbnailManager.getInstance(context)
+        loadAllDocuments()
     }
 
     private fun setupColumnIndexes() {
@@ -61,13 +61,13 @@ class DocumentManager(context: Context) {
         sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)
     }
 
-    private fun loadAllDocuments():ArrayList<PdfDocument> {
-        val temp = ArrayList<PdfDocument>()
+    fun loadAllDocuments() {
+        val temp = ArrayList<Document>()
         Log.d(tag, "loadAllDocuments: found ${cursor.count} documents ")
         if (cursor.moveToFirst()) do {
             temp.add(
-                PdfDocument().apply {
-                    id = cursor.getString(idColumn)
+                Document().apply {
+                    //id = UUID.fromString(cursor.getString(idColumn))
                     uri = Uri.withAppendedPath(externalUri, cursor.getString(idColumn))
                     displayName = cursor.getString(displayNameColumn)
                     mimeType = cursor.getString(mimeColumn)
@@ -80,10 +80,11 @@ class DocumentManager(context: Context) {
             )
             Log.d(tag, "loadAllDocuments: File: " + cursor.getString(titleColumn))
         } while (cursor.moveToNext())
-        return temp
+        documentsLiveData.value = temp
     }
 
     companion object {
         const val READ_STORAGE_PERMISSION_CODE = 0
+        private const val MIME_TYPE = "application/pdf"
     }
 }

@@ -1,8 +1,10 @@
-package com.mjrt.app.allebooks.utils;
+package com.mjrt.app.allebooks.utils.size;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.mjrt.app.allebooks.utils.size.Size;
 
 import java.text.DecimalFormat;
 

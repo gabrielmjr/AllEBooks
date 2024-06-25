@@ -5,6 +5,7 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mjrt.app.allebooks.MainActivity
@@ -12,39 +13,39 @@ import com.mjrt.app.allebooks.R
 import com.mjrt.app.allebooks.adapters.PdfDocumentsAdapter
 import com.mjrt.app.allebooks.core.fragment.BaseFragment
 import com.mjrt.app.allebooks.databinding.FragmentHomeBinding
-import com.mjrt.app.allebooks.documents_manager.documents_manager.PdfDocument
-import java.util.ArrayList
+import com.mjrt.app.allebooks.documents_manager.documents_manager.Document
+import com.mjrt.app.allebooks.documents_manager.documents_manager.DocumentViewModel
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private lateinit var binding: FragmentHomeBinding
-
-    override fun initializeFragment(view: View) {
-        binding = FragmentHomeBinding.bind(view)
-    }
-
-    override fun initializeAttributes() {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
-            loadDocuments()
-        else
-            setupPickDocumentFAB()
-    }
-
-    private fun loadDocuments() {
-        if (documents == null) {
-            Log.d(TAG, "loadDocuments: Loading documents on API <= 29, it's empty")
-            (baseActivity as MainActivity).documentsRepository.loadDocuments(::onDocumentsLoaded)
-        } else {
-            Log.d(TAG, "loadDocuments: No need to reload the documents")
-            onDocumentsLoaded(documents!!)
+    private lateinit var documentViewModel: DocumentViewModel
+    private var pickDocumentActivityLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()) { result ->
+        run {
+            Toast.makeText(requireContext(), result!!.path, Toast.LENGTH_SHORT).show()
         }
     }
 
+    override fun initializeFragment(view: View) {
+        binding = FragmentHomeBinding.bind(view)
+
+    }
+
+    override fun initializeAttributes() {
+        documentViewModel = (baseActivity as MainActivity).documentsViewModel
+        documentViewModel.allDocuments.observe(this) {
+            onDocumentsLoaded(it as java.util.ArrayList)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            setupPickDocumentFAB()
+    }
+
     @SuppressLint("NotifyDataSetChanged")
-    fun onDocumentsLoaded(mDocuments: ArrayList<PdfDocument>) {
+    fun onDocumentsLoaded(mDocuments: ArrayList<Document>) {
+        Log.d(TAG, "onDocumentsLoaded: Docs  loaded " + mDocuments.size)
         handler.post {
-            documents = mDocuments
             if (documentsAdapter == null)
-                documentsAdapter = PdfDocumentsAdapter(requireContext(), documents!!)
+                documentsAdapter = PdfDocumentsAdapter(requireContext(), mDocuments)
             documentsAdapter!!.notifyDataSetChanged()
             binding.docRecycler.adapter = documentsAdapter
             binding.docRecycler.layoutManager = LinearLayoutManager(requireContext())
@@ -70,7 +71,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private fun setFabOpenDocClickListener() {
         binding.fabOpenDoc.setOnClickListener {
             revertFabVisibility()
-            Toast.makeText(requireContext(), "Pick document", Toast.LENGTH_SHORT).show()
+            getDocumentFromIntent()
         }
     }
 
@@ -84,8 +85,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         }
     }
 
+    private fun getDocumentFromIntent() {
+        pickDocumentActivityLauncher.launch(arrayOf("application/pdf"))
+    }
+
     companion object {
-        var documents: ArrayList<PdfDocument>? = null
         @SuppressLint("StaticFieldLeak")
         var documentsAdapter: PdfDocumentsAdapter? = null
         const val TAG = "HomeFragment"

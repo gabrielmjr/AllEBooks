@@ -30,7 +30,9 @@ android {
 }
 
 dependencies {
-    implementation libs.lombok
+    implementation libs.room.runtime
+    annotationProcessor libs.room.compiler
+    compileOnly libs.lombok
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.kotlin.reflect

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.view.Menu
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,18 +15,20 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.mjrt.app.allebooks.core.activity.BaseActivity
 import com.mjrt.app.allebooks.databinding.ActivityMainBinding
-import com.mjrt.app.allebooks.documents_manager.documents_manager.DocumentManager.Companion.READ_STORAGE_PERMISSION_CODE
-import com.mjrt.app.allebooks.documents_manager.documents_manager.DocumentRepository
+import com.mjrt.app.allebooks.documents_manager.documents_manager.DocumentViewModel
+import com.mjrt.app.allebooks.documents_manager.documents_manager.api28.DocumentManagerPie
+    .Companion.READ_STORAGE_PERMISSION_CODE
+import com.mjrt.app.allebooks.documents_manager.documents_manager.api28.DocumentViewModelPie
+import com.mjrt.app.allebooks.documents_manager.documents_manager.api29.DocumentViewModelQ
 
 class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
-    lateinit var documentsRepository: DocumentRepository
+    lateinit var documentsViewModel: DocumentViewModel
 
     override fun initializeActivity(): Boolean {
-        documentsRepository = DocumentRepository.getInstance(applicationContext)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         return true
@@ -82,7 +85,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onPermissionsLegalizer() {
-        documentsRepository = DocumentRepository.getInstance(applicationContext)
+        documentsViewModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            ViewModelProvider(this)[DocumentViewModelQ::class.java]
+        else
+            ViewModelProvider(this)[DocumentViewModelPie::class.java]
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

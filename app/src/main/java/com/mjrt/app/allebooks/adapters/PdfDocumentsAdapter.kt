@@ -8,11 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mjrt.app.allebooks.R
-import com.mjrt.app.allebooks.documents_manager.documents_manager.PdfDocument
+import com.mjrt.app.allebooks.documents_manager.documents_manager.Document
 
 class PdfDocumentsAdapter(
     private val context: Context,
-    var pdfDocuments: ArrayList<PdfDocument>
+    var pdfDocuments: ArrayList<Document>
 ) : RecyclerView.Adapter<PdfDocumentsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -27,7 +27,7 @@ class PdfDocumentsAdapter(
             holder.also {
                 it.docName.text = title
                 it.docSize.text = size.toString()
-                it.thumbnail.setImageBitmap(thumbnail)
+//                it.thumbnail.setImageBitmap(thumbnail)
             }
         }
     }
