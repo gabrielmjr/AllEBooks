@@ -17,7 +17,7 @@ class DocumentManagerPie(private val context: Context) {
         MediaStore.Files.FileColumns._ID,
         MediaStore.Files.FileColumns.MIME_TYPE,
         MediaStore.Files.FileColumns.DATE_MODIFIED,
-        MediaStore.Files.FileColumns.DISPLAY_NAME,
+        MediaStore.Files.FileColumns.TITLE,
         MediaStore.Files.FileColumns.SIZE
     )
     private val whereClause: String
@@ -53,7 +53,7 @@ class DocumentManagerPie(private val context: Context) {
         mimeColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MIME_TYPE)
         lastModifiedTimeColumn =
             cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED)
-        displayNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DISPLAY_NAME)
+        displayNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.TITLE)
         sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)
     }
 
