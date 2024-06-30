@@ -3,19 +3,15 @@ package com.mjrt.app.allebooks.documents_manager.documents_manager.api28
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import com.mjrt.app.allebooks.documents_manager.documents_manager.Document
-import com.mjrt.app.allebooks.documents_manager.documents_manager.utils.DocumentUtils
 import com.mjrt.app.allebooks.thumbnail_manager.thumbnail_manager.ThumbnailManager
 import com.mjrt.app.allebooks.utils.size.SizeParser
 import java.util.Date
 
-@RequiresApi(Build.VERSION_CODES.O)
-class DocumentManagerPie(context: Context) {
+class DocumentManagerPie(private val context: Context) {
     private val tag = javaClass.getName()
     private val projection = arrayOf(
         MediaStore.Files.FileColumns._ID,
@@ -27,8 +23,8 @@ class DocumentManagerPie(context: Context) {
     private val whereClause: String
     private val orderBy: String
     private val externalUri: Uri
-    private val cursor: Cursor
-    private val thumbnailManager: ThumbnailManager
+    private lateinit var cursor: Cursor
+    private lateinit var thumbnailManager: ThumbnailManager
     private var idColumn = 0
     private var mimeColumn = 0
     private var lastModifiedTimeColumn = 0
@@ -43,6 +39,9 @@ class DocumentManagerPie(context: Context) {
         whereClause = MediaStore.Files.FileColumns.MIME_TYPE + " IN ('" + MIME_TYPE + "')"
         orderBy = MediaStore.Files.FileColumns.SIZE + " DESC"
         externalUri = MediaStore.Files.getContentUri("external")
+    }
+
+    fun onPermissionGranted() {
         cursor = context.contentResolver.query(externalUri, projection, whereClause, null, orderBy)!!
         setupColumnIndexes()
         thumbnailManager = ThumbnailManager.getInstance(context)
@@ -58,14 +57,12 @@ class DocumentManagerPie(context: Context) {
         sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun loadAllDocuments() {
+    private fun loadAllDocuments() {
         val temp = ArrayList<Document>()
         Log.d(tag, "loadAllDocuments: found ${cursor.count} documents ")
         if (cursor.moveToFirst()) do {
             temp.add(
                 Document().apply {
-                    id = cursor.getInt(idColumn)
                     uri = Uri.withAppendedPath(externalUri, cursor.getString(idColumn))
                     displayName = cursor.getString(displayNameColumn)
                     mimeType = cursor.getString(mimeColumn)
@@ -75,7 +72,7 @@ class DocumentManagerPie(context: Context) {
                 }
             )
         } while (cursor.moveToNext())
-        documentsLiveData.value = temp
+        documentsLiveData.postValue(temp)
     }
 
     companion object {

@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.mjrt.app.allebooks.documents_manager.documents_manager.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentRepositoryPie {
@@ -14,6 +13,10 @@ public class DocumentRepositoryPie {
 
     public DocumentRepositoryPie(Context context) {
         documentManagerPie = new DocumentManagerPie(context);
+    }
+
+    public void onPermissionGranted() {
+        documentManagerPie.onPermissionGranted();
     }
 
     public MutableLiveData<List<Document>> getAllDocuments() {

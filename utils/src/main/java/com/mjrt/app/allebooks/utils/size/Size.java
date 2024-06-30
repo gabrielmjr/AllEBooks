@@ -13,13 +13,13 @@ public class Size {
 
     public Size(@NonNull String stringSize) {
         var lenght = stringSize.length();
-        if (String.valueOf(stringSize.charAt(lenght - 2)).matches("KMG")) {
+        if (String.valueOf(stringSize.charAt(lenght - 2)).matches("[K,M,G]")) {
             unit = Unit.valueOf(stringSize.charAt(lenght - 2) + ""
                     + stringSize.charAt(lenght - 1));
         } else {
             unit = Unit.valueOf(String.valueOf(stringSize.charAt(lenght - 1)));
         }
-        value = Double.parseDouble(stringSize.replaceAll("[^0-9]", ""));
+        value = Double.parseDouble(stringSize.replaceAll("[^0-9,.]", ""));
     }
 
     @NonNull

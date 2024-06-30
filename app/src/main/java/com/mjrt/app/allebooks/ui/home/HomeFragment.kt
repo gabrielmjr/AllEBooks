@@ -22,6 +22,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var documentViewModel: DocumentViewModel
     private lateinit var documents: ArrayList<Document>
+    private lateinit var documentsAdapter: PdfDocumentsAdapter
     @RequiresApi(Build.VERSION_CODES.O)
     private var pickDocumentActivityLauncher = registerForActivityResult(
         ActivityResultContracts.OpenDocument(), this::onDocumentPickedResult)
@@ -30,27 +31,20 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         binding = FragmentHomeBinding.bind(view)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun initializeAttributes() {
         documentViewModel = (baseActivity as MainActivity).documentsViewModel
-        documentViewModel.allDocuments.observe(this) {
-            documents = it as ArrayList
-            onDocumentsLoaded()
+        documents = ArrayList()
+        documentsAdapter = PdfDocumentsAdapter(requireContext(), documents)
+        binding.docRecycler.adapter = documentsAdapter
+        binding.docRecycler.layoutManager = LinearLayoutManager(requireContext())
+        documentViewModel.allDocuments.observeForever {
+            documentsAdapter.pdfDocuments = it as ArrayList
+            documentsAdapter.notifyDataSetChanged()
+            Log.d(TAG, "onDocumentsLoaded: Docs  loaded " + it.size)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             setupPickDocumentFAB()
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun onDocumentsLoaded() {
-        Log.d(TAG, "onDocumentsLoaded: Docs  loaded " + documents.size)
-        handler.post {
-            if (documentsAdapter == null) {
-                documentsAdapter = PdfDocumentsAdapter(requireContext(), documents)
-                binding.docRecycler.adapter = documentsAdapter
-                binding.docRecycler.layoutManager = LinearLayoutManager(requireContext())
-            }
-            documentsAdapter!!.notifyDataSetChanged()
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -98,12 +92,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         val document = DocumentUtils.getDocument(data, baseActivity.contentResolver)
         documentViewModel.insert(document)
         documents.add(document)
-        documentsAdapter!!.notifyItemInserted(documents.size)
+        documentsAdapter.notifyItemInserted(documents.size)
     }
 
     companion object {
         @SuppressLint("StaticFieldLeak")
-        var documentsAdapter: PdfDocumentsAdapter? = null
         const val TAG = "HomeFragment"
     }
 }

@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.mjrt.app.allebooks.documents_manager.documents_manager.Document;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class DocumentRepositoryQ {
     private final DocumentDaoQ documentDaoQ;
@@ -23,20 +21,14 @@ public class DocumentRepositoryQ {
     }
 
     public void insert(Document document) {
-        DocumentRoomDatabase.databaseWriterExecutor.execute(() -> {
-            documentDaoQ.insert(document);
-        });
+        DocumentRoomDatabase.databaseWriterExecutor.execute(() -> documentDaoQ.insert(document));
     }
 
     public void delete(Document document) {
-        DocumentRoomDatabase.databaseWriterExecutor.execute(() -> {
-            documentDaoQ.remove(document);
-        });
+        DocumentRoomDatabase.databaseWriterExecutor.execute(() -> documentDaoQ.remove(document));
     }
 
     public void update(Document document) {
-        DocumentRoomDatabase.databaseWriterExecutor.execute(() -> {
-            documentDaoQ.updateDocument(document);
-        });
+        DocumentRoomDatabase.databaseWriterExecutor.execute(() -> documentDaoQ.updateDocument(document));
     }
 }

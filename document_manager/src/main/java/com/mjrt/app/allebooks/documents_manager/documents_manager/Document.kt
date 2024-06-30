@@ -8,9 +8,8 @@ import java.util.Date
 
 @Entity(tableName = "documents")
 class Document {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-    var uri: Uri? = null
+    @PrimaryKey(autoGenerate = false)
+    lateinit var uri: Uri
     var mimeType: String? = null
     var displayName: String? = null
     var lastModifiedTime: Date? = null

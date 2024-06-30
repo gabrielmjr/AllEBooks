@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.view.Menu
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -34,9 +35,18 @@ class MainActivity : BaseActivity() {
         return true
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun initializeAttributes() {
+        initializeDocumentViewModel()
         checkForReadPermission()
         setNavigation()
+    }
+
+    private fun initializeDocumentViewModel() {
+        documentsViewModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            ViewModelProvider(this)[DocumentViewModelQ::class.java]
+        else
+            ViewModelProvider(this)[DocumentViewModelPie::class.java]
     }
 
     private fun setNavigation() {
@@ -53,22 +63,20 @@ class MainActivity : BaseActivity() {
         binding.navView.setupWithNavController(navController)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun checkForReadPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-                if (ContextCompat.checkSelfPermission(
-                        applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED
-                ) {
-                    requestPermissions(
-                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                        READ_STORAGE_PERMISSION_CODE
-                    )
-                } else {
-                    onPermissionsLegalizer()
-                }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            if (ContextCompat.checkSelfPermission(
+                    applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    READ_STORAGE_PERMISSION_CODE
+                )
             } else {
-                onPermissionsLegalizer()
+                onPermissionGranted()
             }
         }
     }
@@ -81,14 +89,11 @@ class MainActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == READ_STORAGE_PERMISSION_CODE)
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                onPermissionsLegalizer()
+                onPermissionGranted()
     }
 
-    private fun onPermissionsLegalizer() {
-        documentsViewModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            ViewModelProvider(this)[DocumentViewModelQ::class.java]
-        else
-            ViewModelProvider(this)[DocumentViewModelPie::class.java]
+    private fun onPermissionGranted() {
+        (documentsViewModel as DocumentViewModelPie).onPermissionGranted()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

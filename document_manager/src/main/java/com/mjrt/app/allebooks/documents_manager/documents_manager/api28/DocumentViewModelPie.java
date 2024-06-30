@@ -21,4 +21,8 @@ public class DocumentViewModelPie extends DocumentViewModel {
     public LiveData<List<Document>> getAllDocuments() {
         return documentRepositoryPie.getAllDocuments();
     }
+
+    public void onPermissionGranted() {
+        documentRepositoryPie.onPermissionGranted();
+    }
 }
