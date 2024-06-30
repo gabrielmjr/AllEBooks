@@ -36,14 +36,8 @@ class PdfDocumentsAdapter(
     }
 
     inner class ViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
-        val docName: TextView
-        val docSize: TextView
-        val thumbnail: ImageView
-
-        init {
-            docName = view!!.findViewById(R.id.doc_name)
-            docSize = view.findViewById(R.id.doc_size)
-            thumbnail = view.findViewById(R.id.thumbnail)
-        }
+        val docName: TextView = view!!.findViewById(R.id.doc_name)
+        val docSize: TextView = view!!.findViewById(R.id.doc_size)
+        val thumbnail: ImageView = view!!.findViewById(R.id.thumbnail)
     }
 }
