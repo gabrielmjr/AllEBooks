@@ -5,9 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public abstract class DocumentViewModel extends AndroidViewModel {
     public DocumentViewModel(Application application) {

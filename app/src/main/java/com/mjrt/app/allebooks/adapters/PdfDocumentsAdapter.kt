@@ -25,7 +25,7 @@ class PdfDocumentsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         pdfDocuments[position].apply {
             holder.also {
-                it.docName.text = title
+                it.docName.text = displayName
                 it.docSize.text = size.toString()
 //                it.thumbnail.setImageBitmap(thumbnail)
             }

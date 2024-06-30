@@ -10,14 +10,13 @@ import androidx.room.TypeConverters;
 import com.mjrt.app.allebooks.documents_manager.documents_manager.Document;
 import com.mjrt.app.allebooks.utils.converter.DateConverter;
 import com.mjrt.app.allebooks.utils.converter.SizeConverter;
-import com.mjrt.app.allebooks.utils.converter.UUIDConverter;
 import com.mjrt.app.allebooks.utils.converter.UriConverter;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Document.class}, version = 1, exportSchema = false)
-@TypeConverters({UUIDConverter.class, DateConverter.class, UriConverter.class, SizeConverter.class})
+@TypeConverters({DateConverter.class, UriConverter.class, SizeConverter.class})
 public abstract class DocumentRoomDatabase extends RoomDatabase {
     public abstract DocumentDaoQ documentDao();
 
@@ -31,7 +30,7 @@ public abstract class DocumentRoomDatabase extends RoomDatabase {
             synchronized (DocumentRoomDatabase.class) {
             if (INSTANCE == null)
                 INSTANCE = Room.databaseBuilder(context, DocumentRoomDatabase.class,
-                        "documents_database").build();
+                        "documents_database.db").build();
             }
         return INSTANCE;
     }

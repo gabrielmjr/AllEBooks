@@ -11,7 +11,7 @@ public class Size {
         this.unit = unit;
     }
 
-    public Size(String stringSize) {
+    public Size(@NonNull String stringSize) {
         var lenght = stringSize.length();
         if (String.valueOf(stringSize.charAt(lenght - 2)).matches("KMG")) {
             unit = Unit.valueOf(stringSize.charAt(lenght - 2) + ""
