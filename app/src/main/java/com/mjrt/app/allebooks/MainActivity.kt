@@ -17,8 +17,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.mjrt.app.allebooks.core.activity.BaseActivity
 import com.mjrt.app.allebooks.databinding.ActivityMainBinding
 import com.mjrt.app.allebooks.documents_manager.documents_manager.DocumentViewModel
-import com.mjrt.app.allebooks.documents_manager.documents_manager.api28.DocumentManagerPie
-    .Companion.READ_STORAGE_PERMISSION_CODE
+import com.mjrt.app.allebooks.documents_manager.documents_manager.api28.DocumentManagerPie.Companion
+    .READ_STORAGE_PERMISSION_CODE
 import com.mjrt.app.allebooks.documents_manager.documents_manager.api28.DocumentViewModelPie
 import com.mjrt.app.allebooks.documents_manager.documents_manager.api29.DocumentViewModelQ
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,4 +35,8 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void initializeFragment(View view);
 
     protected abstract void initializeAttributes();
+
+    protected void replaceFragmentBy(@IdRes int fragmentContainer, Fragment fragment, Bundle args) {
+        baseActivity.replaceFragmentBy(fragmentContainer, fragment, args);
+    }
 }

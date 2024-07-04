@@ -46,9 +46,9 @@ dependencies {
     implementation libs.androidx.activity
     implementation libs.splashScreen
     implementation libs.recyclerView
-    implementation libs.pdf.viewer
     implementation project(':core')
     implementation project(':document_manager')
+    implementation project(':reader')
     implementation project(':ui')
     implementation project(':utils')
     testImplementation libs.junit

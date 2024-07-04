@@ -1,6 +1,7 @@
 package com.mjrt.app.allebooks.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -9,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mjrt.app.allebook.reader.activity.ReaderActivity
 import com.mjrt.app.allebooks.MainActivity
 import com.mjrt.app.allebooks.R
 import com.mjrt.app.allebooks.adapters.PdfDocumentsAdapter
@@ -17,8 +19,9 @@ import com.mjrt.app.allebooks.databinding.FragmentHomeBinding
 import com.mjrt.app.allebooks.documents_manager.documents_manager.Document
 import com.mjrt.app.allebooks.documents_manager.documents_manager.DocumentViewModel
 import com.mjrt.app.allebooks.documents_manager.documents_manager.utils.DocumentUtils
+import com.mjrt.app.allebooks.utils.Constants.DOCUMENT_OBJECT
 
-class HomeFragment : BaseFragment(R.layout.fragment_home) {
+class HomeFragment : BaseFragment(R.layout.fragment_home), PdfDocumentsAdapter.ClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var documentViewModel: DocumentViewModel
     private lateinit var documents: ArrayList<Document>
@@ -35,7 +38,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override fun initializeAttributes() {
         documentViewModel = (baseActivity as MainActivity).documentsViewModel
         documents = ArrayList()
-        documentsAdapter = PdfDocumentsAdapter(requireContext(), documents)
+        documentsAdapter = PdfDocumentsAdapter(requireContext(), documents, this)
         binding.docRecycler.adapter = documentsAdapter
         binding.docRecycler.layoutManager = LinearLayoutManager(requireContext())
         documentViewModel.allDocuments.observeForever {
@@ -93,6 +96,13 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         documentViewModel.insert(document)
         documents.add(document)
         documentsAdapter.notifyItemInserted(documents.size)
+    }
+
+    override fun onDocumentClicked(position: Int) {
+        Intent(requireContext(), ReaderActivity::class.java).apply {
+            putExtra(DOCUMENT_OBJECT, documents[position])
+            startActivity(this)
+        }
     }
 
     companion object {

@@ -12,7 +12,8 @@ import com.mjrt.app.allebooks.documents_manager.documents_manager.Document
 
 class PdfDocumentsAdapter(
     private val context: Context,
-    var pdfDocuments: ArrayList<Document>
+    var pdfDocuments: ArrayList<Document>,
+    private val clickListener: ClickListener
 ) : RecyclerView.Adapter<PdfDocumentsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -39,5 +40,19 @@ class PdfDocumentsAdapter(
         val docName: TextView = view!!.findViewById(R.id.doc_name)
         val docSize: TextView = view!!.findViewById(R.id.doc_size)
         val thumbnail: ImageView = view!!.findViewById(R.id.thumbnail)
+
+        init {
+            setOnClickListener(view!!)
+        }
+
+        private fun setOnClickListener(view: View) {
+            view.setOnClickListener {
+                clickListener.onDocumentClicked(absoluteAdapterPosition)
+            }
+        }
+    }
+
+    interface ClickListener {
+        fun onDocumentClicked(position: Int)
     }
 }
