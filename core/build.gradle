@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.mjrt.app.allebooks.core'
+    namespace 'com.mjrfusion.app.allebooks.core'
     compileSdk 34
 
     defaultConfig {

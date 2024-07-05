@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.mjrt.app.allebooks.document_manager'
+    namespace 'com.mjrfusion.app.allebooks.document_manager'
     compileSdk 34
 
     defaultConfig {

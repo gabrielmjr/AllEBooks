@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.mjrt.app.allebooks.ui.home.HomeFragment"
+        android:name="com.mjrfusion.app.allebooks.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_reading"
-        android:name="com.mjrt.app.allebooks.ui.reading.ReadingFragment"
+        android:name="com.mjrfusion.app.allebooks.ui.reading.ReadingFragment"
         android:label="@string/menu_reading"
         tools:layout="@layout/fragment_reading" />
 
     <fragment
         android:id="@+id/nav_read"
-        android:name="com.mjrt.app.allebooks.ui.read.ReadFragment"
+        android:name="com.mjrfusion.app.allebooks.ui.read.ReadFragment"
         android:label="@string/menu_read"
         tools:layout="@layout/fragment_read" />
 </navigation>

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.mjrt.app.allebooks'
+    namespace 'com.mjrfusion.app.allebooks'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.mjrt.app.allebooks"
+        applicationId "com.mjrfusion.app.allebooks"
         minSdk 21
         targetSdk 34
         versionCode 1
