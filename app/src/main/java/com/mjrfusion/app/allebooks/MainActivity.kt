@@ -3,28 +3,18 @@ package com.mjrfusion.app.allebooks
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
-import android.view.Menu
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.mjrfusion.app.allebooks.core.activity.BaseActivity
 import com.mjrfusion.app.allebooks.databinding.ActivityMainBinding
 import com.mjrfusion.app.allebooks.documents_manager.DocumentViewModel
 import com.mjrfusion.app.allebooks.documents_manager.api28.DocumentManagerPie.Companion.READ_STORAGE_PERMISSION_CODE
 import com.mjrfusion.app.allebooks.documents_manager.api28.DocumentViewModelPie
 import com.mjrfusion.app.allebooks.documents_manager.api29.DocumentViewModelQ
+import com.mjrfusion.app.allebooks.ui.home.HomeFragment
 
 class MainActivity : BaseActivity() {
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var navHostFragment: NavHostFragment
-    private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     lateinit var documentsViewModel: DocumentViewModel
 
@@ -38,7 +28,7 @@ class MainActivity : BaseActivity() {
     override fun initializeAttributes() {
         initializeDocumentViewModel()
         checkForReadPermission()
-        setNavigation()
+        setDefaultFragment()
     }
 
     private fun initializeDocumentViewModel() {
@@ -48,18 +38,8 @@ class MainActivity : BaseActivity() {
             ViewModelProvider(this)[DocumentViewModelPie::class.java]
     }
 
-    private fun setNavigation() {
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_reading, R.id.nav_read
-            ), binding.drawerLayout
-        )
-        navHostFragment = supportFragmentManager.findFragmentById(
-            com.mjrfusion.app.allebooks.core.R.id.nav_host_fragment_content_main) as  NavHostFragment
-        navController = navHostFragment.navController
-        navController.graph = navController.navInflater.inflate(R.navigation.mobile_navigation)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.navView.setupWithNavController(navController)
+    private fun setDefaultFragment() {
+        replaceFragmentBy(R.id.fragment_container, HomeFragment::class.java)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -93,16 +73,5 @@ class MainActivity : BaseActivity() {
 
     private fun onPermissionGranted() {
         (documentsViewModel as DocumentViewModelPie).onPermissionGranted()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(
-            com.mjrfusion.app.allebooks.core.R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

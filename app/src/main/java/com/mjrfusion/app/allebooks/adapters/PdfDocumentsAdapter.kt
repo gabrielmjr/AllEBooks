@@ -17,9 +17,8 @@ class PdfDocumentsAdapter(
 ) : RecyclerView.Adapter<PdfDocumentsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(
-                context
-            ).inflate(R.layout.cardview_document, parent, false)
+            LayoutInflater.from(context)
+                .inflate(R.layout.cardview_document, parent, false)
         )
     }
 
@@ -32,6 +31,7 @@ class PdfDocumentsAdapter(
             }
         }
     }
+
     override fun getItemCount(): Int {
         return pdfDocuments.size
     }

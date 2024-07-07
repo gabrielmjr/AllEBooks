@@ -13,4 +13,6 @@
     <string name="open_new_document_button">Open new document button</string>
     <string name="open_new_button">Open new button</string>
     <string name="open_a_document">Open a document</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
