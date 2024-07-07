@@ -1,6 +1,7 @@
 package com.mjrfusion.app.allebooks.ui.home
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -14,12 +15,13 @@ import com.mjrfusion.app.allebook.reader.activity.ReaderActivity
 import com.mjrfusion.app.allebooks.MainActivity
 import com.mjrfusion.app.allebooks.R
 import com.mjrfusion.app.allebooks.adapters.PdfDocumentsAdapter
-import com.mjrfusion.app.allebooks.core.core.fragment.BaseFragment
+import com.mjrfusion.app.allebooks.core.fragment.BaseFragment
 import com.mjrfusion.app.allebooks.databinding.FragmentHomeBinding
-import com.mjrfusion.app.allebooks.documents_manager.documents_manager.documents_manager.Document
-import com.mjrfusion.app.allebooks.documents_manager.documents_manager.documents_manager.DocumentViewModel
-import com.mjrfusion.app.allebooks.documents_manager.documents_manager.documents_manager.utils.DocumentUtils
+import com.mjrfusion.app.allebooks.documents_manager.Document
+import com.mjrfusion.app.allebooks.documents_manager.DocumentViewModel
+import com.mjrfusion.app.allebooks.documents_manager.utils.DocumentUtils
 import com.mjrfusion.app.allebooks.utils.Constants.DOCUMENT_OBJECT
+import com.mjrfusion.app.allebooks.utils.Constants.PDF_MIME_TYPE
 
 class HomeFragment : BaseFragment(R.layout.fragment_home), PdfDocumentsAdapter.ClickListener {
     private lateinit var binding: FragmentHomeBinding
@@ -43,6 +45,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), PdfDocumentsAdapter.C
         binding.docRecycler.layoutManager = LinearLayoutManager(requireContext())
         documentViewModel.allDocuments.observeForever {
             documentsAdapter.pdfDocuments = it as ArrayList
+            documents = it
             documentsAdapter.notifyDataSetChanged()
             Log.d(TAG, "onDocumentsLoaded: Docs  loaded " + it.size)
         }
@@ -87,12 +90,15 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), PdfDocumentsAdapter.C
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getDocumentFromIntent() {
-        pickDocumentActivityLauncher.launch(arrayOf("application/pdf"))
+        pickDocumentActivityLauncher.launch(arrayOf(PDF_MIME_TYPE))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun onDocumentPickedResult(data: Uri?) {
         val document = DocumentUtils.getDocument(data, baseActivity.contentResolver)
+        baseActivity.contentResolver.takePersistableUriPermission(
+            data!!,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION)
         documentViewModel.insert(document)
         documents.add(document)
         documentsAdapter.notifyItemInserted(documents.size)

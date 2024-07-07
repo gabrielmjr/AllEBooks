@@ -14,14 +14,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.mjrfusion.app.allebooks.core.core.activity.BaseActivity
+import com.mjrfusion.app.allebooks.core.activity.BaseActivity
 import com.mjrfusion.app.allebooks.databinding.ActivityMainBinding
-import com.mjrfusion.app.allebooks.documents_manager.documents_manager.documents_manager.DocumentViewModel
-import com.mjrfusion.app.allebooks.documents_manager.documents_manager.api28.DocumentManagerPie.Companion
-    .READ_STORAGE_PERMISSION_CODE
-import com.mjrfusion.app.allebooks.documents_manager.documents_manager.documents_manager.api28.DocumentViewModelPie
-import com.mjrfusion.app.allebooks.documents_manager.documents_manager.documents_manager.api29.DocumentViewModelQ
-import com.mjrfusion.app.allebooks.R
+import com.mjrfusion.app.allebooks.documents_manager.DocumentViewModel
+import com.mjrfusion.app.allebooks.documents_manager.api28.DocumentManagerPie.Companion.READ_STORAGE_PERMISSION_CODE
+import com.mjrfusion.app.allebooks.documents_manager.api28.DocumentViewModelPie
+import com.mjrfusion.app.allebooks.documents_manager.api29.DocumentViewModelQ
 
 class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -57,7 +55,7 @@ class MainActivity : BaseActivity() {
             ), binding.drawerLayout
         )
         navHostFragment = supportFragmentManager.findFragmentById(
-            com.mjrt.app.allebooks.core.R.id.nav_host_fragment_content_main) as  NavHostFragment
+            com.mjrfusion.app.allebooks.core.R.id.nav_host_fragment_content_main) as  NavHostFragment
         navController = navHostFragment.navController
         navController.graph = navController.navInflater.inflate(R.navigation.mobile_navigation)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -104,7 +102,7 @@ class MainActivity : BaseActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(
-            com.mjrt.app.allebooks.core.R.id.nav_host_fragment_content_main)
+            com.mjrfusion.app.allebooks.core.R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

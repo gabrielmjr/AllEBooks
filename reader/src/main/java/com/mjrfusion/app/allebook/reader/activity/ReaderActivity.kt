@@ -1,12 +1,20 @@
 package com.mjrfusion.app.allebook.reader.activity
 
+import android.os.Bundle
+import com.mjrfusion.app.allebook.reader.R
 import com.mjrfusion.app.allebook.reader.databinding.ActivityReaderBinding
-import com.mjrfusion.app.allebooks.core.core.activity.BaseActivity
-import com.mjrfusion.app.allebooks.utils.Constants.DOCUMENT_TYPE
+import com.mjrfusion.app.allebook.reader.fragment.PdfReaderFragment
+import com.mjrfusion.app.allebooks.core.activity.BaseActivity
+import com.mjrfusion.app.allebooks.documents_manager.Document
+import com.mjrfusion.app.allebooks.utils.Constants.DOCUMENT_OBJECT
 import com.mjrfusion.app.allebooks.utils.Constants.PDF_DOCUMENT
+import com.mjrfusion.app.allebooks.utils.Constants.PDF_MIME_TYPE
+import com.mjrfusion.app.allebooks.utils.Constants.PDF_READER_TAG
+import com.mjrfusion.app.allebooks.utils.ParcelableUtil
 
 class ReaderActivity: BaseActivity() {
     private lateinit var binding: ActivityReaderBinding
+    private lateinit var document: Document
 
     override fun initializeActivity(): Boolean {
         binding = ActivityReaderBinding.inflate(layoutInflater)
@@ -15,12 +23,22 @@ class ReaderActivity: BaseActivity() {
     }
 
     override fun initializeAttributes() {
-        when (intent.getStringExtra(DOCUMENT_TYPE)!!) {
-            PDF_DOCUMENT -> displayPdfDocument()
+        document = ParcelableUtil.getParcelable(intent, DOCUMENT_OBJECT, Document::class.java)
+        when (document.mimeType) {
+            PDF_MIME_TYPE -> displayPdfDocument()
         }
     }
 
     private fun displayPdfDocument() {
-        TODO("Display the document from intent to the fragment")
+        Bundle().apply {
+            putParcelable(DOCUMENT_OBJECT, document)
+            replaceFragmentBy(
+                R.id.fragment_reader_container,
+                PdfReaderFragment::class.java,
+                null,
+                this,
+                false
+            )
+        }
     }
 }
