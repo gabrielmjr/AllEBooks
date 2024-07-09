@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/note_list_margin"
-    app:cardCornerRadius="@dimen/cardCornerRadius">
+    style="@style/Theme.AllEBooks.Widget.CardView">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Application.Widget.CardView">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/thumbnail"

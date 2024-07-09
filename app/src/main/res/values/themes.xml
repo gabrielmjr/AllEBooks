@@ -4,9 +4,8 @@
         <item name="postSplashScreenTheme">@style/Theme.AllEBooks</item>
     </style>
 
-
     <style name="Theme.AllEBooks" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/transparent</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/teal_200</item>
@@ -20,9 +19,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Application.Widget.CardView" parent="Theme.AllEBooks">
-        <item name="android:background">@color/color_card_view</item>
-        <item name="android:textColor">@color/black</item>
+    <style name="Theme.AllEBooks.Widget.CardView" parent="Theme.AllEBooks">
+        <item name="android:background">@drawable/bg_cardview</item>
     </style>
 
+    <style name="Theme.AllEBooks.AppBarOverlay" parent="Widget.Material3.AppBarLayout" />
+
+    <style name="Theme.AllEBooks.PopupOverlay" parent="Theme.AppCompat.DayNight.DarkActionBar"/>
+
+    <style name="Theme.AllEBooks.Actionbar" parent="">
+        <item name="android:background">@drawable/bg_toolbar</item>
+    </style>
 </resources>

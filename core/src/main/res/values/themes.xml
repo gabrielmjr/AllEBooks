@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.AllEBooks.AppBarOverlay" parent="Widget.Material3.AppBarLayout" />
-
-    <style name="Theme.AllEBooks.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-</resources>
