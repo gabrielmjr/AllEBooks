@@ -29,7 +29,7 @@ class MainOptionsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         mainOptionsViewModel.mainOptions.value?.get(position)?.apply {
-            holder.animatedIcon.setImageResource(animatedIcon)
+            holder.animatedIcon.setImageResource(icon)
             holder.label.setText(label)
         }
     }

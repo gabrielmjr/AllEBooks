@@ -3,24 +3,24 @@ package com.mjrfusion.app.allebooks.model;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 
-public class Main_Option {
+public class MainOption {
     @DrawableRes
-    private int animatedIcon;
+    private int icon;
 
     @StringRes
     private int label;
 
-    public Main_Option(@DrawableRes int animatedIcon, @StringRes int label) {
-        this.animatedIcon = animatedIcon;
+    public MainOption(@DrawableRes int icon, @StringRes int label) {
+        this.icon = icon;
         this.label = label;
     }
 
-    public int getAnimatedIcon() {
-        return animatedIcon;
+    public int getIcon() {
+        return icon;
     }
 
-    public void setAnimatedIcon(@DrawableRes int animatedIcon) {
-        this.animatedIcon = animatedIcon;
+    public void setIcon(@DrawableRes int icon) {
+        this.icon = icon;
     }
 
     public int getLabel() {

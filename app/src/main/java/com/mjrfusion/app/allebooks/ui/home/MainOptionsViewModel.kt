@@ -4,15 +4,29 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mjrfusion.app.allebooks.R
-import com.mjrfusion.app.allebooks.model.Main_Option
+import com.mjrfusion.app.allebooks.model.MainOption
 
 class MainOptionsViewModel : ViewModel() {
-    private var _mainOptions = MutableLiveData<List<Main_Option>>().apply {
+    private var _mainOptions = MutableLiveData<List<MainOption>>().apply {
         value = listOf(
-            Main_Option(R.drawable.ic_home, R.string.menu_home),
-            Main_Option(R.drawable.ic_closed_book, R.string.menu_read)
+            MainOption(
+                R.drawable.ic_books_collection,
+                R.string.collections
+            ),
+            MainOption(
+                R.drawable.ic_opened_book,
+                R.string.reading
+            ),
+            MainOption(
+                R.drawable.ic_favourite_book,
+                R.string.favourite_books
+            ),
+            MainOption(
+                R.drawable.ic_settings,
+                R.string.settings
+            )
         )
     }
 
-    var mainOptions: LiveData<List<Main_Option>> = _mainOptions
+    var mainOptions: LiveData<List<MainOption>> = _mainOptions
 }
