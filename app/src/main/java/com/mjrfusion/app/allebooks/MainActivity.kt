@@ -1,6 +1,7 @@
 package com.mjrfusion.app.allebooks
 
 import android.os.Build
+import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.mjrfusion.app.allebooks.core.activity.BaseActivity
@@ -25,6 +26,14 @@ class MainActivity : BaseActivity() {
         initializeDocumentViewModel()
         checkForReadPermission()
         setDefaultFragment()
+        setOnBackPressedListener()
+    }
+
+    private fun setOnBackPressedListener() {
+        onBackPressedDispatcher.addCallback {
+            if (!supportFragmentManager.popBackStackImmediate())
+                finish()
+        }
     }
 
     private fun initializeDocumentViewModel() {
