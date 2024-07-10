@@ -2,9 +2,11 @@ package com.mjrfusion.app.allebooks.ui.books
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -92,9 +94,14 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
             data!!,
             Intent.FLAG_GRANT_READ_URI_PERMISSION
         )
-        documentViewModel.insert(document)
-        documents.add(document)
-        documentsAdapter.notifyItemInserted(documents.size)
+        try {
+            documentViewModel.insert(document)
+            documents.add(document)
+            documentsAdapter.notifyItemInserted(documents.size)
+        } catch (e: SQLiteConstraintException) {
+            Toast.makeText(requireContext(), "The document was already added.", Toast.LENGTH_LONG)
+                .show()
+        }
     }
 
     override fun onDocumentClicked(position: Int) {
