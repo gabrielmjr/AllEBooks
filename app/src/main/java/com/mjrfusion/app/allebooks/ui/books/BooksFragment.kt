@@ -3,11 +3,9 @@ package com.mjrfusion.app.allebooks.ui.books
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mjrfusion.app.allebook.reader.activity.ReaderActivity
@@ -27,9 +25,9 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
     private lateinit var documentViewModel: DocumentViewModel
     private lateinit var documents: ArrayList<Document>
     private lateinit var documentsAdapter: PdfDocumentsAdapter
-    @RequiresApi(Build.VERSION_CODES.O)
     private var pickDocumentActivityLauncher = registerForActivityResult(
-        ActivityResultContracts.OpenDocument(), this::onDocumentPickedResult)
+        ActivityResultContracts.OpenDocument(), this::onDocumentPickedResult
+    )
 
     override fun initializeFragment(view: View) {
         binding = FragmentBooksBinding.bind(view)
@@ -48,11 +46,9 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
             documentsAdapter.notifyDataSetChanged()
             Log.d(TAG, "onDocumentsLoaded: Docs  loaded " + it.size)
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            setupPickDocumentFAB()
+        setupPickDocumentFAB()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setupPickDocumentFAB() {
         showFab()
         setFabOpenClickListener()
@@ -69,7 +65,6 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setFabOpenDocClickListener() {
         binding.fabOpenDoc.setOnClickListener {
             revertFabVisibility()
@@ -87,17 +82,16 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun getDocumentFromIntent() {
         pickDocumentActivityLauncher.launch(arrayOf(PDF_MIME_TYPE))
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun onDocumentPickedResult(data: Uri?) {
         val document = DocumentUtils.getDocument(data, baseActivity!!.contentResolver)
         baseActivity?.contentResolver?.takePersistableUriPermission(
             data!!,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
         documentViewModel.insert(document)
         documents.add(document)
         documentsAdapter.notifyItemInserted(documents.size)

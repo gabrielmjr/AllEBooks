@@ -3,12 +3,10 @@ package com.mjrfusion.app.allebooks.documents_manager.utils;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import com.mjrfusion.app.allebooks.documents_manager.Document;
 import com.mjrfusion.app.allebooks.utils.size.Size;
@@ -27,7 +25,6 @@ public class DocumentUtils {
 
     private static int lastModifiedTimeColumn = 0;
 
-    @RequiresApi(Build.VERSION_CODES.O)
     public static Document getDocument(
             Uri data, @NonNull ContentResolver contentResolver) {
         var cursor = contentResolver.query(

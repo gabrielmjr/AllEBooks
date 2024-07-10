@@ -1,15 +1,11 @@
 package com.mjrfusion.app.allebooks
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.mjrfusion.app.allebooks.core.activity.BaseActivity
 import com.mjrfusion.app.allebooks.databinding.ActivityMainBinding
 import com.mjrfusion.app.allebooks.documents_manager.DocumentViewModel
-import com.mjrfusion.app.allebooks.documents_manager.api28.DocumentManagerPie.Companion.READ_STORAGE_PERMISSION_CODE
 import com.mjrfusion.app.allebooks.documents_manager.api28.DocumentViewModelPie
 import com.mjrfusion.app.allebooks.documents_manager.api29.DocumentViewModelQ
 import com.mjrfusion.app.allebooks.ui.home.HomeFragment
@@ -32,10 +28,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initializeDocumentViewModel() {
-        documentsViewModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+        /*documentsViewModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
             ViewModelProvider(this)[DocumentViewModelQ::class.java]
         else
-            ViewModelProvider(this)[DocumentViewModelPie::class.java]
+            ViewModelProvider(this)[DocumentViewModelPie::class.java]*/
+        documentsViewModel = ViewModelProvider(this)[DocumentViewModelQ::class.java]
     }
 
     private fun setDefaultFragment() {
@@ -44,7 +41,7 @@ class MainActivity : BaseActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun checkForReadPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             if (ContextCompat.checkSelfPermission(
                     applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE
                 )
@@ -57,7 +54,7 @@ class MainActivity : BaseActivity() {
             } else {
                 onPermissionGranted()
             }
-        }
+        }*/
     }
 
     override fun onRequestPermissionsResult(
@@ -66,9 +63,9 @@ class MainActivity : BaseActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == READ_STORAGE_PERMISSION_CODE)
+        /*if (requestCode == READ_STORAGE_PERMISSION_CODE)
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                onPermissionGranted()
+                onPermissionGranted()*/
     }
 
     private fun onPermissionGranted() {
