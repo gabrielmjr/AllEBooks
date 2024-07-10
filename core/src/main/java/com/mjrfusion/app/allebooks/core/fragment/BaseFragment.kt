@@ -29,11 +29,11 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : Fragment(layoutRes) {
 
     protected fun replaceFragmentBy(
         @IdRes fragmentContainer: Int,
-        fragment: Class<out Fragment?>?,
+        fragment: Class<out Fragment>,
         tag: String? = null,
         args: Bundle? = null,
-        addToBackStack: Boolean
+        addToBackStack: Boolean = false
     ) {
-        baseActivity!!.replaceFragmentBy(fragmentContainer, fragment!!, tag, args, addToBackStack)
+        baseActivity!!.replaceFragmentBy(fragmentContainer, fragment, tag, args, addToBackStack)
     }
 }
