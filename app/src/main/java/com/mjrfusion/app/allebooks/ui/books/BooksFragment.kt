@@ -48,39 +48,12 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
             documentsAdapter.notifyDataSetChanged()
             Log.d(TAG, "onDocumentsLoaded: Docs  loaded " + it.size)
         }
-        setupPickDocumentFAB()
-    }
-
-    private fun setupPickDocumentFAB() {
-        showFab()
-        setFabOpenClickListener()
         setFabOpenDocClickListener()
-    }
-
-    private fun showFab() {
-        binding.fabsParentLayout.visibility = View.VISIBLE
-    }
-
-    private fun setFabOpenClickListener() {
-        binding.fabOpen.setOnClickListener {
-            revertFabVisibility()
-        }
     }
 
     private fun setFabOpenDocClickListener() {
         binding.fabOpenDoc.setOnClickListener {
-            revertFabVisibility()
             getDocumentFromIntent()
-        }
-    }
-
-    private fun revertFabVisibility() {
-        if (binding.fabOpenDoc.isVisible) {
-            binding.fabOpenDoc.visibility = View.INVISIBLE
-            binding.openDocFabLabel.visibility = View.INVISIBLE
-        } else {
-            binding.fabOpenDoc.visibility = View.VISIBLE
-            binding.openDocFabLabel.visibility = View.VISIBLE
         }
     }
 
