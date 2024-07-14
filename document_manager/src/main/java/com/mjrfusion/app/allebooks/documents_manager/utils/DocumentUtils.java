@@ -55,9 +55,11 @@ public class DocumentUtils {
         return document;
     }
 
+    @NonNull
     private static String getDisplayName(@NonNull Cursor cursor) {
         var displayNameIndex = cursor.getColumnIndex((OpenableColumns.DISPLAY_NAME));
-        return cursor.getString(displayNameIndex);
+        var displayName = cursor.getString(displayNameIndex);
+        return displayName.substring(0, displayName.lastIndexOf('.'));
     }
 
     @NonNull
