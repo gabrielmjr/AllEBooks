@@ -54,7 +54,6 @@ public class DocumentUtils {
         document.setSize(getDocumentSize(cursor));
         return document;
     }
-
     @NonNull
     private static String getDisplayName(@NonNull Cursor cursor) {
         var displayNameIndex = cursor.getColumnIndex((OpenableColumns.DISPLAY_NAME));

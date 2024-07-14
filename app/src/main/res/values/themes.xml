@@ -20,7 +20,8 @@
     </style>
 
     <style name="Theme.AllEBooks.Widget.CardView" parent="Theme.AllEBooks">
-        <item name="android:background">@drawable/bg_cardview</item>
+        <item name="android:backgroundTint">@color/color_card_view</item>
+        <item name="cardCornerRadius">@dimen/cardCornerRadius</item>
     </style>
 
     <style name="Theme.AllEBooks.AppBarOverlay" parent="Widget.Material3.AppBarLayout" />
