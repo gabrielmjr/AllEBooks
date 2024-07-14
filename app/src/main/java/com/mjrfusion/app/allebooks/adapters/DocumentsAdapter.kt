@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mjrfusion.app.allebooks.R
 import com.mjrfusion.app.allebooks.documents_manager.model.Document
 
-class PdfDocumentsAdapter(
+class DocumentsAdapter(
     private val context: Context,
     var pdfDocuments: ArrayList<Document>,
     private val clickListener: ClickListener
-) : RecyclerView.Adapter<PdfDocumentsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<DocumentsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(context)

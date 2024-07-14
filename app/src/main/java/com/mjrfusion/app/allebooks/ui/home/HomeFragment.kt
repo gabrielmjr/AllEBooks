@@ -6,7 +6,7 @@ import com.mjrfusion.app.allebooks.R
 import com.mjrfusion.app.allebooks.adapters.MainOptionsAdapter
 import com.mjrfusion.app.allebooks.core.fragment.BaseFragment
 import com.mjrfusion.app.allebooks.databinding.FragmentHomeBinding
-import com.mjrfusion.app.allebooks.ui.books.BooksFragment
+import com.mjrfusion.app.allebooks.ui.collections.CollectionsFragment
 import com.mjrfusion.app.allebooks.ui.reading.ReadingFragment
 import com.mjrfusion.app.allebooks.utils.Constants.COLLECTIONS
 import com.mjrfusion.app.allebooks.utils.Constants.READING
@@ -35,7 +35,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), MainOptionsAdapter.Cl
         when (position) {
             COLLECTIONS -> replaceFragmentBy(
                 R.id.fragment_container,
-                BooksFragment::class.java,
+                CollectionsFragment::class.java,
                 tag = "collection-fragment",
                 addToBackStack = true
             )

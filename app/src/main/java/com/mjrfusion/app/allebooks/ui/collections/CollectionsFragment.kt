@@ -1,4 +1,4 @@
-package com.mjrfusion.app.allebooks.ui.books
+package com.mjrfusion.app.allebooks.ui.collections
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.mjrfusion.app.allebook.reader.activity.ReaderActivity
 import com.mjrfusion.app.allebooks.MainActivity
 import com.mjrfusion.app.allebooks.R
-import com.mjrfusion.app.allebooks.adapters.PdfDocumentsAdapter
+import com.mjrfusion.app.allebooks.adapters.DocumentsAdapter
 import com.mjrfusion.app.allebooks.core.fragment.BaseFragment
 import com.mjrfusion.app.allebooks.databinding.FragmentBooksBinding
 import com.mjrfusion.app.allebooks.documents_manager.api29.DocumentViewModel
@@ -19,10 +19,10 @@ import com.mjrfusion.app.allebooks.documents_manager.utils.DocumentUtils
 import com.mjrfusion.app.allebooks.utils.Constants.DOCUMENT_OBJECT
 import com.mjrfusion.app.allebooks.utils.Constants.PDF_MIME_TYPE
 
-class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter.ClickListener {
+class CollectionsFragment : BaseFragment(R.layout.fragment_books), DocumentsAdapter.ClickListener {
     private lateinit var binding: FragmentBooksBinding
     private lateinit var documentViewModel: DocumentViewModel
-    private lateinit var documentsAdapter: PdfDocumentsAdapter
+    private lateinit var documentsAdapter: DocumentsAdapter
     private var pickDocumentActivityLauncher = registerForActivityResult(
         ActivityResultContracts.OpenDocument(), this::onDocumentPickedResult
     )
@@ -34,7 +34,7 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
     @SuppressLint("NotifyDataSetChanged")
     override fun initializeAttributes() {
         documentViewModel = (baseActivity as MainActivity).documentsViewModel
-        documentsAdapter = PdfDocumentsAdapter(requireContext(), ArrayList(), this)
+        documentsAdapter = DocumentsAdapter(requireContext(), ArrayList(), this)
         binding.docRecycler.adapter = documentsAdapter
         documentViewModel.allDocuments.observeForever {
             documentsAdapter.pdfDocuments = it as ArrayList
