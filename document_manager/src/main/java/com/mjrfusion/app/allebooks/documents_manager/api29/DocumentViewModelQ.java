@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-import com.mjrfusion.app.allebooks.documents_manager.Document;
+import com.mjrfusion.app.allebooks.documents_manager.model.Document;
 import com.mjrfusion.app.allebooks.documents_manager.DocumentViewModel;
 
 import java.util.List;

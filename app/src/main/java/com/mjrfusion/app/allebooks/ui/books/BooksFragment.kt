@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mjrfusion.app.allebook.reader.activity.ReaderActivity
 import com.mjrfusion.app.allebooks.MainActivity
@@ -16,7 +15,7 @@ import com.mjrfusion.app.allebooks.R
 import com.mjrfusion.app.allebooks.adapters.PdfDocumentsAdapter
 import com.mjrfusion.app.allebooks.core.fragment.BaseFragment
 import com.mjrfusion.app.allebooks.databinding.FragmentBooksBinding
-import com.mjrfusion.app.allebooks.documents_manager.Document
+import com.mjrfusion.app.allebooks.documents_manager.model.Document
 import com.mjrfusion.app.allebooks.documents_manager.DocumentViewModel
 import com.mjrfusion.app.allebooks.documents_manager.utils.DocumentUtils
 import com.mjrfusion.app.allebooks.utils.Constants.DOCUMENT_OBJECT
@@ -62,18 +61,28 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
     }
 
     private fun onDocumentPickedResult(data: Uri?) {
-        val document = DocumentUtils.getDocument(data, baseActivity!!.contentResolver)
-        baseActivity?.contentResolver?.takePersistableUriPermission(
-            data!!,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION
-        )
-        try {
-            documentViewModel.insert(document)
-            documents.add(document)
-            documentsAdapter.notifyItemInserted(documents.size)
-        } catch (e: SQLiteConstraintException) {
-            Toast.makeText(requireContext(), "The document was already added.", Toast.LENGTH_LONG)
-                .show()
+        if (data != null) {
+            val document = DocumentUtils.getDocument(data, baseActivity!!.contentResolver)
+            baseActivity?.contentResolver?.takePersistableUriPermission(
+                data,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+            document.apply {
+                docStatus = Document.DocumentStatus.NEVER_OPENED
+                isFavourite = false
+            }
+            try {
+                documentViewModel.insert(document)
+                documents.add(document)
+                documentsAdapter.notifyItemInserted(documents.size)
+            } catch (e: SQLiteConstraintException) {
+                Toast.makeText(
+                    requireContext(),
+                    "The document was already added.",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }
         }
     }
 

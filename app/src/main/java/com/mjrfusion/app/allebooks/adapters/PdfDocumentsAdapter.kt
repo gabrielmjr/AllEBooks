@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mjrfusion.app.allebooks.R
-import com.mjrfusion.app.allebooks.documents_manager.Document
+import com.mjrfusion.app.allebooks.documents_manager.model.Document
 
 class PdfDocumentsAdapter(
     private val context: Context,

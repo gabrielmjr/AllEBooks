@@ -8,7 +8,7 @@ import android.provider.OpenableColumns;
 
 import androidx.annotation.NonNull;
 
-import com.mjrfusion.app.allebooks.documents_manager.Document;
+import com.mjrfusion.app.allebooks.documents_manager.model.Document;
 import com.mjrfusion.app.allebooks.utils.size.Size;
 import com.mjrfusion.app.allebooks.utils.size.SizeParser;
 

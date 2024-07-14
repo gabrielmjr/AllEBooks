@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.mjrfusion.app.allebooks.documents_manager.Document;
+import com.mjrfusion.app.allebooks.documents_manager.model.Document;
 
 import java.util.List;
 

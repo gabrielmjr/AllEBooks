@@ -1,4 +1,4 @@
-package com.mjrfusion.app.allebooks.documents_manager
+package com.mjrfusion.app.allebooks.documents_manager.model
 
 import android.net.Uri
 import android.os.Parcel
@@ -7,20 +7,24 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.mjrfusion.app.allebooks.utils.size.Size
 import java.util.Date
+import kotlin.properties.Delegates
 
 @Entity(tableName = "documents")
 class Document() : Parcelable {
     @PrimaryKey(autoGenerate = false)
     lateinit var uri: Uri
-    var mimeType: String? = null
-    var displayName: String? = null
-    var lastModifiedTime: Date? = null
-    var size: Size? = null
+    lateinit var mimeType: String
+    lateinit var displayName: String
+    lateinit var lastModifiedTime: Date
+    lateinit var size: Size
+    var isFavourite = false
+    lateinit var docStatus: DocumentStatus
 
     constructor(parcel: Parcel) : this() {
         uri = parcel.readValue(Uri::class.java.classLoader) as Uri
-        mimeType = parcel.readString()
-        displayName = parcel.readString()
+        mimeType = parcel.readString()!!
+        displayName = parcel.readString()!!
+        isFavourite = (parcel.readValue(Boolean::class.java.classLoader) as Boolean?)!!
     }
 
     override fun describeContents(): Int {
@@ -31,6 +35,7 @@ class Document() : Parcelable {
         dest.writeValue(uri)
         dest.writeString(mimeType)
         dest.writeString(displayName)
+        dest.writeValue(isFavourite)
     }
 
     companion object CREATOR : Parcelable.Creator<Document> {
@@ -41,5 +46,11 @@ class Document() : Parcelable {
         override fun newArray(size: Int): Array<Document?> {
             return arrayOfNulls(size)
         }
+    }
+
+    enum class DocumentStatus {
+        NEVER_OPENED,
+        READING,
+        READ
     }
 }

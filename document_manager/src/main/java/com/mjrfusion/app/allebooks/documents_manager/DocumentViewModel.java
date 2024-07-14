@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.mjrfusion.app.allebooks.documents_manager.model.Document;
+
 import java.util.List;
 
 public abstract class DocumentViewModel extends AndroidViewModel {

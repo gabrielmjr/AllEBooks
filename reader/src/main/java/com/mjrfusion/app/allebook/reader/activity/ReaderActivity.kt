@@ -5,11 +5,9 @@ import com.mjrfusion.app.allebook.reader.R
 import com.mjrfusion.app.allebook.reader.databinding.ActivityReaderBinding
 import com.mjrfusion.app.allebook.reader.fragment.PdfReaderFragment
 import com.mjrfusion.app.allebooks.core.activity.BaseActivity
-import com.mjrfusion.app.allebooks.documents_manager.Document
+import com.mjrfusion.app.allebooks.documents_manager.model.Document
 import com.mjrfusion.app.allebooks.utils.Constants.DOCUMENT_OBJECT
-import com.mjrfusion.app.allebooks.utils.Constants.PDF_DOCUMENT
 import com.mjrfusion.app.allebooks.utils.Constants.PDF_MIME_TYPE
-import com.mjrfusion.app.allebooks.utils.Constants.PDF_READER_TAG
 import com.mjrfusion.app.allebooks.utils.ParcelableUtil
 
 class ReaderActivity: BaseActivity() {

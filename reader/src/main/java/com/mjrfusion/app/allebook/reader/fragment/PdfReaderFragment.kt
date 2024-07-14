@@ -6,7 +6,7 @@ import android.widget.Toast
 import com.mjrfusion.app.allebook.reader.R
 import com.mjrfusion.app.allebook.reader.databinding.FragmentPdfReaderBinding
 import com.mjrfusion.app.allebooks.core.fragment.BaseFragment
-import com.mjrfusion.app.allebooks.documents_manager.Document
+import com.mjrfusion.app.allebooks.documents_manager.model.Document
 import com.mjrfusion.app.allebooks.utils.Constants.DOCUMENT_OBJECT
 import com.mjrfusion.app.allebooks.utils.ParcelableUtil
 

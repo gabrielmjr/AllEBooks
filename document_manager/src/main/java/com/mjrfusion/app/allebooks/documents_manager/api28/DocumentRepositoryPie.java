@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.mjrfusion.app.allebooks.documents_manager.Document;
+import com.mjrfusion.app.allebooks.documents_manager.model.Document;
 
 import java.util.List;
 

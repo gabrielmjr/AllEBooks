@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.mjrfusion.app.allebooks.documents_manager.Document;
+import com.mjrfusion.app.allebooks.documents_manager.model.Document;
 import com.mjrfusion.app.allebooks.utils.converter.DateConverter;
 import com.mjrfusion.app.allebooks.utils.converter.SizeConverter;
 import com.mjrfusion.app.allebooks.utils.converter.UriConverter;

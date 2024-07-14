@@ -6,7 +6,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.mjrfusion.app.allebooks.documents_manager.Document
+import com.mjrfusion.app.allebooks.documents_manager.model.Document
 import com.mjrfusion.app.allebooks.thumbnail_manager.ThumbnailManager
 import com.mjrfusion.app.allebooks.utils.size.SizeParser
 import java.util.Date
