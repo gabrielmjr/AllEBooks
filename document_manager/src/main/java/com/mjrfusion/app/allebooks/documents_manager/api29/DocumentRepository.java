@@ -25,6 +25,10 @@ public class DocumentRepository {
         return documentDao.existsByUri(uri);
     }
 
+    public LiveData<List<Document>> getAllReadingDocs() {
+        return documentDao.getAllReadingDocs();
+    }
+
     public void insert(Document document) {
         DocumentRoomDatabase.databaseWriterExecutor.execute(() -> documentDao.insert(document));
     }

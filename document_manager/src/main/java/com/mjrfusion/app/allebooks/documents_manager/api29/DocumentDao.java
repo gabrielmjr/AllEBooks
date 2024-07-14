@@ -21,6 +21,9 @@ public interface DocumentDao {
     @Query("SELECT EXISTS(SELECT * FROM documents WHERE uri = :uri)")
     LiveData<Boolean> existsByUri(Uri uri);
 
+    @Query("SELECT * FROM documents WHERE docStatus='READING'")
+    LiveData<List<Document>> getAllReadingDocs();
+
     @Insert
     void insert (Document document);
 

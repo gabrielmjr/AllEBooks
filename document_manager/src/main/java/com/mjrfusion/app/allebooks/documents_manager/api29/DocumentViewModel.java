@@ -29,6 +29,10 @@ public class DocumentViewModel extends AndroidViewModel {
         return documentRepository.existsByUri(uri);
     }
 
+    public LiveData<List<Document>> getAllReadingDocs() {
+        return documentRepository.getAllReadingDocs();
+    }
+
     public void insert(Document document) {
         documentRepository.insert(document);
     }
