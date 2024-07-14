@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mjrfusion.app.allebook.reader.activity.ReaderActivity
 import com.mjrfusion.app.allebooks.MainActivity
 import com.mjrfusion.app.allebooks.R
@@ -23,7 +22,6 @@ import com.mjrfusion.app.allebooks.utils.Constants.PDF_MIME_TYPE
 class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter.ClickListener {
     private lateinit var binding: FragmentBooksBinding
     private lateinit var documentViewModel: DocumentViewModel
-    private lateinit var documents: ArrayList<Document>
     private lateinit var documentsAdapter: PdfDocumentsAdapter
     private var pickDocumentActivityLauncher = registerForActivityResult(
         ActivityResultContracts.OpenDocument(), this::onDocumentPickedResult
@@ -36,13 +34,10 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
     @SuppressLint("NotifyDataSetChanged")
     override fun initializeAttributes() {
         documentViewModel = (baseActivity as MainActivity).documentsViewModel
-        documents = ArrayList()
-        documentsAdapter = PdfDocumentsAdapter(requireContext(), documents, this)
+        documentsAdapter = PdfDocumentsAdapter(requireContext(), ArrayList(), this)
         binding.docRecycler.adapter = documentsAdapter
-        binding.docRecycler.layoutManager = LinearLayoutManager(requireContext())
         documentViewModel.allDocuments.observeForever {
             documentsAdapter.pdfDocuments = it as ArrayList
-            documents = it
             documentsAdapter.notifyDataSetChanged()
             Log.d(TAG, "onDocumentsLoaded: Docs  loaded " + it.size)
         }
@@ -87,8 +82,6 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
                     }
                 } else {
                     documentViewModel.insert(document)
-                    documents.add(document)
-                    documentsAdapter.notifyItemInserted(documents.size)
                     shouldShowTheToast = false
                 }
             }
@@ -97,7 +90,7 @@ class BooksFragment : BaseFragment(R.layout.fragment_books), PdfDocumentsAdapter
 
     override fun onDocumentClicked(position: Int) {
         Intent(requireContext(), ReaderActivity::class.java).apply {
-            putExtra(DOCUMENT_OBJECT, documents[position])
+            putExtra(DOCUMENT_OBJECT, documentsAdapter.pdfDocuments[position])
             startActivity(this)
         }
     }

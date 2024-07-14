@@ -18,9 +18,9 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
+            style="@style/Theme.AllEBooks.Actionbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/Theme.AllEBooks.Actionbar"
             app:popupTheme="@style/Theme.AllEBooks.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>

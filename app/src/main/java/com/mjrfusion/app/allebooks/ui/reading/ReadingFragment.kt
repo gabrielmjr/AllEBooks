@@ -9,7 +9,6 @@ import com.mjrfusion.app.allebooks.adapters.PdfDocumentsAdapter
 import com.mjrfusion.app.allebooks.core.fragment.BaseFragment
 import com.mjrfusion.app.allebooks.databinding.FragmentReadingBinding
 import com.mjrfusion.app.allebooks.documents_manager.api29.DocumentViewModel
-import com.mjrfusion.app.allebooks.documents_manager.model.Document
 
 class ReadingFragment : BaseFragment(R.layout.fragment_reading), PdfDocumentsAdapter.ClickListener {
     private lateinit var binding: FragmentReadingBinding
@@ -23,7 +22,7 @@ class ReadingFragment : BaseFragment(R.layout.fragment_reading), PdfDocumentsAda
     @SuppressLint("NotifyDataSetChanged")
     override fun initializeAttributes() {
         documentViewModel = (baseActivity as MainActivity).documentsViewModel
-        documentAdapter = PdfDocumentsAdapter(requireContext(), ArrayList<Document>(), this)
+        documentAdapter = PdfDocumentsAdapter(requireContext(), ArrayList(), this)
         binding.readingDocs.adapter = documentAdapter
         binding.readingDocs.layoutManager = LinearLayoutManager(requireContext())
         documentViewModel.allReadingDocs.observeForever {
