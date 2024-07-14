@@ -9,6 +9,8 @@ import androidx.lifecycle.LiveData;
 
 import com.mjrfusion.app.allebooks.documents_manager.model.Document;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class DocumentViewModel extends AndroidViewModel {

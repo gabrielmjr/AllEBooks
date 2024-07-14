@@ -5,9 +5,9 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.mjrfusion.app.allebooks.utils.ParcelableUtil
 import com.mjrfusion.app.allebooks.utils.size.Size
 import java.util.Date
-import kotlin.properties.Delegates
 
 @Entity(tableName = "documents")
 class Document() : Parcelable {
@@ -24,7 +24,10 @@ class Document() : Parcelable {
         uri = parcel.readValue(Uri::class.java.classLoader) as Uri
         mimeType = parcel.readString()!!
         displayName = parcel.readString()!!
-        isFavourite = (parcel.readValue(Boolean::class.java.classLoader) as Boolean?)!!
+        lastModifiedTime = parcel.readValue(Date::class.java.classLoader) as Date
+        size = ParcelableUtil.getParcelable(parcel, Size::class.java)
+        isFavourite = parcel.readValue(Boolean::class.java.classLoader) as Boolean
+        docStatus = parcel.readValue(DocumentStatus::class.java.classLoader) as DocumentStatus
     }
 
     override fun describeContents(): Int {
@@ -35,7 +38,10 @@ class Document() : Parcelable {
         dest.writeValue(uri)
         dest.writeString(mimeType)
         dest.writeString(displayName)
+        dest.writeValue(lastModifiedTime)
+        dest.writeParcelable(size, 0)
         dest.writeValue(isFavourite)
+        dest.writeValue(docStatus)
     }
 
     companion object CREATOR : Parcelable.Creator<Document> {
