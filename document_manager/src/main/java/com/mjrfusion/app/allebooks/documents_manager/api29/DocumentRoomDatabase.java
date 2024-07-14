@@ -18,10 +18,10 @@ import java.util.concurrent.Executors;
 @Database(entities = {Document.class}, version = 1, exportSchema = false)
 @TypeConverters({DateConverter.class, UriConverter.class, SizeConverter.class})
 public abstract class DocumentRoomDatabase extends RoomDatabase {
-    public abstract DocumentDaoQ documentDao();
+    public abstract DocumentDao documentDao();
 
     private static volatile DocumentRoomDatabase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 4;
+    private static final int NUMBER_OF_THREADS = 5;
     public static final ExecutorService databaseWriterExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 

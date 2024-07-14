@@ -6,9 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.mjrfusion.app.allebooks.core.activity.BaseActivity
 import com.mjrfusion.app.allebooks.databinding.ActivityMainBinding
-import com.mjrfusion.app.allebooks.documents_manager.DocumentViewModel
-import com.mjrfusion.app.allebooks.documents_manager.api28.DocumentViewModelPie
-import com.mjrfusion.app.allebooks.documents_manager.api29.DocumentViewModelQ
+import com.mjrfusion.app.allebooks.documents_manager.api29.DocumentViewModel
 import com.mjrfusion.app.allebooks.ui.home.HomeFragment
 
 class MainActivity : BaseActivity() {
@@ -37,11 +35,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initializeDocumentViewModel() {
-        /*documentsViewModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            ViewModelProvider(this)[DocumentViewModelQ::class.java]
-        else
-            ViewModelProvider(this)[DocumentViewModelPie::class.java]*/
-        documentsViewModel = ViewModelProvider(this)[DocumentViewModelQ::class.java]
+        documentsViewModel = ViewModelProvider(this)[DocumentViewModel::class.java]
     }
 
     private fun setDefaultFragment() {
@@ -78,6 +72,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onPermissionGranted() {
-        (documentsViewModel as DocumentViewModelPie).onPermissionGranted()
+        //(documentsViewModel as DocumentViewModelPie).onPermissionGranted()
     }
 }
