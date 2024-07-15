@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -15,6 +16,7 @@ import com.mjrfusion.app.allebooks.utils.size.SizeParser;
 import org.jetbrains.annotations.Contract;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class DocumentUtils {
     private static final String[] projection = new String[]{
@@ -35,7 +37,8 @@ public class DocumentUtils {
             setupColumnIndexes(cursor);
             document = getDocument(cursor);
             document.setUri(data);
-            document.setMimeType(contentResolver.getType(data));
+            Log.d("DocumentUtils", "getDocument: " + contentResolver.getType(data));
+            document.setMimeType(Objects.requireNonNull(contentResolver.getType(data)));
             cursor.close();
         }
         return document;
@@ -49,16 +52,27 @@ public class DocumentUtils {
     @NonNull
     private static Document getDocument(Cursor cursor) {
         var document = new Document();
-        document.setDisplayName(getDisplayName(cursor));
+        var displayName = getDisplayName(cursor);
+        document.setDisplayName(getDisplayNameWithoutExtension(displayName));
+        document.setExtension(getExtension(displayName));
         document.setLastModifiedTime(getLastModifiedTime(cursor));
         document.setSize(getDocumentSize(cursor));
         return document;
     }
+
     @NonNull
     private static String getDisplayName(@NonNull Cursor cursor) {
         var displayNameIndex = cursor.getColumnIndex((OpenableColumns.DISPLAY_NAME));
-        var displayName = cursor.getString(displayNameIndex);
+        return cursor.getString(displayNameIndex);
+    }
+
+    @NonNull
+    public static String getDisplayNameWithoutExtension(String displayName) {
         return displayName.substring(0, displayName.lastIndexOf('.'));
+    }
+
+    public static String getExtension(String displayName) {
+        return displayName.substring(displayName.lastIndexOf('.') + 1);
     }
 
     @NonNull

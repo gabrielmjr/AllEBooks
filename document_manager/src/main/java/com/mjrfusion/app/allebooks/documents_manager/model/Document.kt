@@ -15,6 +15,7 @@ class Document() : Parcelable {
     lateinit var uri: Uri
     lateinit var mimeType: String
     lateinit var displayName: String
+    lateinit var extension: String
     lateinit var lastModifiedTime: Date
     lateinit var size: Size
     var isFavourite = false
@@ -24,6 +25,7 @@ class Document() : Parcelable {
         uri = parcel.readValue(Uri::class.java.classLoader) as Uri
         mimeType = parcel.readString()!!
         displayName = parcel.readString()!!
+        extension = parcel.readString()!!
         lastModifiedTime = parcel.readValue(Date::class.java.classLoader) as Date
         size = ParcelableUtil.getParcelable(parcel, Size::class.java)
         isFavourite = parcel.readValue(Boolean::class.java.classLoader) as Boolean
@@ -38,6 +40,7 @@ class Document() : Parcelable {
         dest.writeValue(uri)
         dest.writeString(mimeType)
         dest.writeString(displayName)
+        dest.writeString(extension)
         dest.writeValue(lastModifiedTime)
         dest.writeParcelable(size, 0)
         dest.writeValue(isFavourite)

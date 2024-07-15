@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textview.MaterialTextView
 import com.mjrfusion.app.allebooks.R
 import com.mjrfusion.app.allebooks.documents_manager.model.Document
 
@@ -26,6 +26,7 @@ class DocumentsAdapter(
         pdfDocuments[position].apply {
             holder.also {
                 it.docName.text = displayName
+                it.docType.text = extension
                 it.docSize.text = size.toString()
 //                it.thumbnail.setImageBitmap(thumbnail)
             }
@@ -37,8 +38,9 @@ class DocumentsAdapter(
     }
 
     inner class ViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
-        val docName: TextView = view!!.findViewById(R.id.doc_name)
-        val docSize: TextView = view!!.findViewById(R.id.doc_size)
+        val docName: MaterialTextView = view!!.findViewById(R.id.doc_name)
+        val docType: MaterialTextView = view!!.findViewById(R.id.doc_type)
+        val docSize: MaterialTextView = view!!.findViewById(R.id.doc_size)
         val thumbnail: ImageView = view!!.findViewById(R.id.thumbnail)
 
         init {
